@@ -1,0 +1,675 @@
+/* ==========================================================================
+   MUNA'S CRUNCHIES - Artisanal Bakery Design System & Style Engine
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Brand Palette */
+  --bg-cream: #FDF6E9;
+  --bg-cream-light: #FFFDF9;
+  --bg-parchment: #F5E8D3;
+  --bg-warm-dark: #1E100A;
+  
+  --caramel: #E8C9A0;
+  --caramel-deep: #C89965;
+  --caramel-gold: #DDA15E;
+  
+  --chocolate: #4A2C0A;
+  --espresso: #2C1810;
+  --espresso-rich: #1F100A;
+  
+  --honey: #F4A261;
+  --honey-glow: #F97316;
+  --amber: #E76F51;
+  
+  --blush: #E9C4C4;
+  --blush-soft: #F7EAE8;
+  
+  --text-primary: #2C1810;
+  --text-secondary: #5C4334;
+  --text-muted: #8A6E5D;
+  --text-light: #FDF6E9;
+  
+  /* Radii & Shadows */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 36px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 4px 12px rgba(44, 24, 16, 0.05);
+  --shadow-md: 0 10px 25px -5px rgba(44, 24, 16, 0.08), 0 8px 10px -6px rgba(44, 24, 16, 0.04);
+  --shadow-lg: 0 20px 35px -5px rgba(44, 24, 16, 0.12), 0 10px 15px -5px rgba(44, 24, 16, 0.06);
+  --shadow-glow: 0 0 40px rgba(244, 162, 97, 0.35);
+  --shadow-card-hover: 0 25px 50px -12px rgba(74, 44, 10, 0.22);
+  
+  /* Fonts */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Italiana', serif;
+  
+  /* Cursor */
+  --cursor-size: 32px;
+  --cursor-dot-size: 8px;
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background-color: var(--bg-cream);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-x: hidden;
+  position: relative;
+  background-color: var(--bg-cream);
+  min-height: 100vh;
+}
+
+/* Tactile Grain Texture Overlay (Organic Bakery Paper Feeling) */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Selection Color */
+::selection {
+  background-color: var(--caramel);
+  color: var(--espresso);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--caramel-deep);
+  border-radius: 999px;
+  border: 2px solid var(--bg-cream);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--chocolate);
+}
+
+/* ==========================================================================
+   Typography Utilities
+   ========================================================================== */
+.font-serif {
+  font-family: var(--font-serif);
+}
+.font-sans {
+  font-family: var(--font-sans);
+}
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ==========================================================================
+   Custom Cursor System
+   ========================================================================== */
+.cursor-dot,
+.cursor-ring,
+.cursor-text {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 10000;
+  transition: opacity 0.3s ease, transform 0.15s ease-out;
+}
+
+.cursor-dot {
+  width: var(--cursor-dot-size);
+  height: var(--cursor-dot-size);
+  background: var(--espresso);
+  transition: transform 0.1s ease-out, background 0.3s ease;
+}
+
+.cursor-ring {
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border: 1.5px solid rgba(74, 44, 10, 0.4);
+  background: rgba(244, 162, 97, 0.08);
+  backdrop-filter: blur(1px);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease,
+              background-color 0.3s ease,
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cursor-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bg-cream);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Cursor States */
+body.cursor-hover .cursor-ring {
+  width: 64px;
+  height: 64px;
+  background: rgba(244, 162, 97, 0.2);
+  border-color: var(--honey-dark);
+}
+
+body.cursor-hover .cursor-dot {
+  transform: translate(-50%, -50%) scale(1.5);
+  background: var(--honey-glow);
+}
+
+body.cursor-view .cursor-ring {
+  width: 84px;
+  height: 84px;
+  background: rgba(44, 24, 16, 0.88);
+  border-color: var(--caramel);
+  backdrop-filter: blur(4px);
+}
+body.cursor-view .cursor-dot {
+  opacity: 0;
+}
+body.cursor-view .cursor-text {
+  opacity: 1;
+}
+
+body.cursor-active .cursor-ring {
+  transform: translate(-50%, -50%) scale(0.85);
+  background: rgba(231, 111, 81, 0.3);
+}
+
+/* Hide custom cursor on touch devices or fine pointer absent */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot,
+  .cursor-ring,
+  .cursor-text {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Canvas Particles Layer
+   ========================================================================== */
+#particles-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Spotlight mouse follower */
+.mouse-spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  margin-top: -300px;
+  margin-left: -300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 162, 97, 0.08) 0%, rgba(244, 162, 97, 0.02) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 8;
+  transition: transform 0.15s ease-out;
+  mix-blend-mode: multiply;
+}
+
+/* ==========================================================================
+   Header & Navigation
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.site-header.scrolled {
+  background: rgba(253, 246, 233, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px -10px rgba(44, 24, 16, 0.08);
+  border-bottom: 1px solid rgba(232, 201, 160, 0.3);
+}
+
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--honey-dark);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 2px;
+}
+
+.nav-link:hover {
+  color: var(--espresso);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ==========================================================================
+   3D Tilt & Card Physics
+   ========================================================================== */
+.tilt-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.tilt-inner {
+  transform: translateZ(28px);
+  transform-style: preserve-3d;
+}
+
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.45) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+  z-index: 20;
+}
+
+.tilt-card:hover .tilt-glare {
+  opacity: 1;
+}
+
+/* Product Card Specifics */
+.product-card {
+  background: var(--bg-cream-light);
+  border: 1px solid rgba(232, 201, 160, 0.4);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.product-card:hover {
+  border-color: var(--caramel);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.product-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background-color: var(--bg-parchment);
+}
+
+.product-card-img-wrap img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+
+.product-card:hover .product-card-img-wrap img {
+  transform: scale(1.08) rotate(-1deg);
+}
+
+/* Interactive Word Sparkle Bursts */
+.story-word-interactive {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: var(--espresso);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--honey);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
+}
+
+.story-word-interactive:hover {
+  color: var(--honey-dark);
+  text-decoration-color: var(--espresso);
+}
+
+.story-word-interactive::after {
+  content: '✨';
+  font-size: 0.75em;
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.25s ease;
+}
+
+.story-word-interactive:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==========================================================================
+   Magnetic Buttons & Micro-Interactions
+   ========================================================================== */
+.btn-magnetic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              background-color 0.3s ease,
+              color 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.btn-magnetic::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140%;
+  padding-bottom: 140%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-magnetic:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.btn-magnetic:active {
+  transform: scale(0.96);
+}
+
+/* Button Variants */
+.btn-primary {
+  background: linear-gradient(135deg, #4A2C0A 0%, #2C1810 100%);
+  color: var(--bg-cream);
+  box-shadow: 0 8px 20px -4px rgba(44, 24, 16, 0.35);
+  border: 1px solid rgba(232, 201, 160, 0.2);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #5C380E 0%, #3D2217 100%);
+  box-shadow: 0 12px 28px -4px rgba(44, 24, 16, 0.45);
+}
+
+.btn-honey {
+  background: linear-gradient(135deg, #F4A261 0%, #E76F51 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px -4px rgba(244, 162, 97, 0.45);
+}
+.btn-honey:hover {
+  background: linear-gradient(135deg, #F7AB73 0%, #EB7F64 100%);
+  box-shadow: 0 12px 30px -4px rgba(244, 162, 97, 0.6);
+}
+
+.btn-secondary {
+  background: rgba(253, 246, 233, 0.9);
+  color: var(--espresso);
+  border: 1.5px solid var(--caramel);
+  box-shadow: 0 4px 15px rgba(44, 24, 16, 0.05);
+}
+.btn-secondary:hover {
+  background: #FFFFFF;
+  border-color: var(--espresso);
+  color: var(--chocolate);
+}
+
+/* Floating Badge Animation */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatGentle 6s ease-in-out 1.5s infinite;
+}
+
+@keyframes steamPuff {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-30px) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.steam-ring {
+  animation: steamPuff 3s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* ==========================================================================
+   Interactive Modals & Drawers
+   ========================================================================== */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 16, 10, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.drawer-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-cream-light);
+  box-shadow: -15px 0 50px rgba(44, 24, 16, 0.2);
+  z-index: 1001;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-drawer.active {
+  transform: translateX(0%);
+}
+
+.quick-view-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -46%) scale(0.96);
+  width: 90%;
+  max-width: 820px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-cream-light);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 25px 60px -10px rgba(44, 24, 16, 0.3);
+  z-index: 1002;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(232, 201, 160, 0.4);
+}
+
+.quick-view-modal.active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   Form Styling with Floating Labels
+   ========================================================================== */
+.floating-form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.floating-input {
+  width: 100%;
+  padding: 1.1rem 1.2rem 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(232, 201, 160, 0.6);
+  border-radius: var(--radius-md);
+  color: var(--espresso);
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.floating-input:focus {
+  border-color: var(--honey-dark);
+  box-shadow: 0 0 0 4px rgba(244, 162, 97, 0.2);
+}
+
+.floating-label {
+  position: absolute;
+  top: 0.95rem;
+  left: 1.2rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              font-size 0.2s ease,
+              color 0.2s ease;
+}
+
+.floating-input:focus ~ .floating-label,
+.floating-input:not(:placeholder-shown) ~ .floating-label {
+  transform: translateY(-0.55rem);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--honey-dark);
+}
+
+/* ==========================================================================
+   Audio Toggle & Toast Notifications
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--espresso);
+  color: var(--bg-cream);
+  border-radius: var(--radius-full);
+  box-shadow: 0 10px 30px rgba(44, 24, 16, 0.25);
+  border: 1px solid rgba(232, 201, 160, 0.3);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.toast-item.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Craft Progress Timeline */
+.craft-step-card {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 3px solid transparent;
+}
+
+.craft-step-card.active {
+  background: #FFFFFF;
+  border-left-color: var(--honey);
+  box-shadow: var(--shadow-md);
+  transform: translateX(8px);
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .quick-view-modal {
+    width: 95%;
+    max-height: 85vh;
+  }
+  .cart-drawer {
+    max-width: 100%;
+  }
+}

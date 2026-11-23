@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MUNA'S CRUNCHIES | Artisanal Bakery & Patisserie</title>
+  <meta name="description" content="Crunch into Happiness. Handcrafted artisan croissants, double-baked honey butter biscotti, 48-hour cold-fermented sourdough, and decadent patisserie in the heart of the city.">
+  <link rel="canonical" href="https://munascrunchies.com">
+
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FDF6E9',
+            'cream-light': '#FFFDF9',
+            parchment: '#F5E8D3',
+            caramel: '#E8C9A0',
+            'caramel-deep': '#C89965',
+            chocolate: '#4A2C0A',
+            espresso: '#2C1810',
+            honey: '#F4A261',
+            'honey-dark': '#E76F51',
+            blush: '#E9C4C4',
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            display: ['Italiana', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- GSAP & ScrollTrigger for Cinematic Smooth Motion -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+  <!-- Core Scripts -->
+  <script src="js/particles.js" defer></script>
+  <script src="js/cursor.js" defer></script>
+  <script src="js/tilt.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body class="bg-[#FDF6E9] text-[#2C1810] font-sans antialiased selection:bg-[#E8C9A0] selection:text-[#2C1810]">
+
+  <!-- Tactile Grain Paper Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Ambient Mouse Spotlight Glow -->
+  <div class="mouse-spotlight" aria-hidden="true"></div>
+
+  <!-- Interactive Physics Canvas Particles (Flour Dust & Golden Sparks) -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Custom Cursor Elements (Desktop only, gracefully disabled on touch) -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+  <div class="cursor-text" aria-hidden="true">VIEW</div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" aria-live="polite"></div>
+
+  <!-- ==========================================================================
+       Sticky Header Navigation
+       ========================================================================== -->
+  <header class="site-header fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="group flex items-center gap-3 text-decoration-none">
+        <div class="w-10 h-10 rounded-full bg-[#4A2C0A] flex items-center justify-center text-[#FDF6E9] shadow-md group-hover:scale-105 transition-transform">
+          <span class="font-serif font-black text-lg">M</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif font-bold text-xl tracking-wider text-[#2C1810] group-hover:text-[#4A2C0A] transition">
+            MUNA'S <span class="font-light italic text-[#E76F51]">Crunchies</span>
+          </span>
+          <span class="text-[10px] uppercase tracking-widest text-[#8A6E5D] font-semibold -mt-1">
+            Artisanal Oven • Est. 2019
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 bg-[#FFFDF9]/80 backdrop-blur-md px-6 py-2.5 rounded-full border border-[#E8C9A0]/40 shadow-sm" aria-label="Main Navigation">
+        <a href="#hero" class="nav-link text-sm font-semibold">Home</a>
+        <a href="#about" class="nav-link text-sm font-semibold">Our Story</a>
+        <a href="#menu" class="nav-link text-sm font-semibold">The Menu</a>
+        <a href="#craft" class="nav-link text-sm font-semibold">Our Craft</a>
+        <a href="#testimonials" class="nav-link text-sm font-semibold">Love</a>
+        <a href="#visit" class="nav-link text-sm font-semibold">Visit Us</a>
+      </nav>
+
+      <!-- Action Buttons & Audio Toggle -->
+      <div class="flex items-center gap-3">
+        
+        <!-- Web Audio Chime Sound Toggle -->
+        <button 
+          id="audio-toggle-btn"
+          class="w-10 h-10 rounded-full bg-[#FFFDF9]/80 hover:bg-[#FFFDF9] border border-[#E8C9A0]/60 flex items-center justify-center text-sm shadow-sm transition-transform active:scale-95"
+          aria-label="Toggle bakery sound effects"
+        >
+          <span class="audio-icon">🔔</span>
+        </button>
+
+        <!-- Cart Trigger Button with Live Badge -->
+        <button 
+          class="trigger-open-cart btn-magnetic relative w-11 h-11 rounded-full bg-[#FFFDF9]/80 hover:bg-[#FFFDF9] border border-[#E8C9A0]/60 flex items-center justify-center shadow-sm transition-all"
+          aria-label="View shopping bag"
+        >
+          <svg class="w-5 h-5 text-[#2C1810]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span class="cart-count-badge hidden absolute -top-1 -right-1 bg-[#E76F51] text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-pulse">
+            0
+          </span>
+        </button>
+
+        <!-- Primary CTA Order Button -->
+        <a 
+          href="#menu" 
+          class="hidden sm:inline-flex btn-magnetic btn-primary px-5 py-2.5 text-xs font-bold rounded-full tracking-wide shadow-sm"
+        >
+          <span>Order Fresh</span>
+        </a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button 
+          id="mobile-menu-toggle"
+          class="md:hidden w-10 h-10 rounded-full bg-[#FFFDF9] border border-[#E8C9A0]/60 flex items-center justify-center shadow-sm"
+          aria-label="Open mobile menu"
+        >
+          <svg class="w-5 h-5 text-[#2C1810]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Backdrop & Menu -->
+  <div id="mobile-drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+  <aside id="mobile-nav-drawer" class="cart-drawer p-6 flex flex-col justify-between" aria-label="Mobile Navigation">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-[#E8C9A0]/40">
+        <span class="font-serif font-bold text-lg text-[#2C1810]">MUNA'S CRUNCHIES</span>
+        <button class="mobile-nav-link text-2xl text-[#8A6E5D] hover:text-[#2C1810]" aria-label="Close menu">✕</button>
+      </div>
+      <nav class="flex flex-col gap-4 mt-8" aria-label="Mobile links">
+        <a href="#hero" class="mobile-nav-link text-lg font-serif font-semibold text-[#2C1810] hover:text-[#E76F51]">Home</a>
+        <a href="#about" class="mobile-nav-link text-lg font-serif font-semibold text-[#2C1810] hover:text-[#E76F51]">Our Story</a>
+        <a href="#menu" class="mobile-nav-link text-lg font-serif font-semibold text-[#2C1810] hover:text-[#E76F51]">Signature Menu</a>
+        <a href="#craft" class="mobile-nav-link text-lg font-serif font-semibold text-[#2C1810] hover:text-[#E76F51]">The Craft</a>
+        <a href="#testimonials" class="mobile-nav-link text-lg font-serif font-semibold text-[#2C1810] hover:text-[#E76F51]">Customer Love</a>
+        <a href="#visit" class="mobile-nav-link text-lg font-serif font-semibold text-[#2C1810] hover:text-[#E76F51]">Visit & Contact</a>
+      </nav>
+    </div>
+    <div class="pt-6 border-t border-[#E8C9A0]/40">
+      <a href="#menu" class="mobile-nav-link btn-magnetic btn-primary w-full py-3 text-center text-sm font-bold rounded-full block mb-3">
+        Explore Menu & Order
+      </a>
+      <p class="text-xs text-center text-[#8A6E5D]">
+        Fresh morning bakes dispatched daily from 7:00 AM
+      </p>
+    </div>
+  </aside>
+
+  <main>
+    <!-- ==========================================================================
+         1. Hero Section: Full Viewport Immersive Experience
+         ========================================================================== -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-6 md:px-12 overflow-hidden">
+      
+      <!-- Ambient Background Radial Gradients -->
+      <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#E8C9A0]/30 blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute -bottom-32 -right-32 w-[32rem] h-[32rem] rounded-full bg-[#F4A261]/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+      <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-20">
+        
+        <!-- Left: Headline & Story Hook -->
+        <div class="lg:col-span-7 flex flex-col items-start text-left">
+          
+          <!-- Live Bakery Status Pill -->
+          <div class="hero-badge-reveal inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#FFFDF9] border border-[#E8C9A0]/60 shadow-sm mb-6">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+            <span class="text-xs font-bold text-[#4A2C0A] uppercase tracking-wider">
+              Ovens Glowing • Fresh Morning Batch Ready
+            </span>
+          </div>
+
+          <!-- Main Brand Title with 3D Tilt Reactivity -->
+          <h1 class="hero-title-reveal hero-tilt-headline font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-[#2C1810] leading-[1.05] tracking-tight mb-6">
+            MUNA'S <br>
+            <span class="font-normal italic font-display text-[#E76F51]">Crunchies</span>
+          </h1>
+
+          <!-- Tagline & Sensory Copy -->
+          <p class="hero-sub-reveal font-serif italic text-2xl md:text-3xl text-[#4A2C0A] mb-4">
+            “Crunch into Happiness”
+          </p>
+
+          <p class="hero-sub-reveal text-base md:text-lg text-[#5C4334] max-w-xl leading-relaxed mb-8 font-normal">
+            Handcrafted joy, one bite at a time. Step into the warm embrace of golden morning light, slow-fermented wild doughs, 81 buttery gossamer layers, and double-baked caramel crunchies.
+          </p>
+
+          <!-- Interactive CTAs -->
+          <div class="hero-cta-reveal flex flex-wrap items-center gap-4">
+            <a 
+              href="#menu" 
+              class="btn-magnetic btn-primary px-8 py-4 text-sm font-bold rounded-full tracking-wide shadow-lg group flex items-center gap-2"
+            >
+              <span>Explore The Menu</span>
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+
+            <a 
+              href="#craft" 
+              class="btn-magnetic btn-secondary px-7 py-4 text-sm font-bold rounded-full tracking-wide shadow-sm flex items-center gap-2"
+            >
+              <span>Discover Our Craft</span>
+              <span class="text-[#E76F51]">✨</span>
+            </a>
+          </div>
+
+          <!-- Trust Badges & Daily Metrics -->
+          <div class="hero-cta-reveal mt-12 grid grid-cols-3 gap-6 pt-6 border-t border-[#E8C9A0]/50 max-w-lg w-full">
+            <div>
+              <span class="block font-serif font-bold text-2xl text-[#2C1810]">48h</span>
+              <span class="text-xs text-[#8A6E5D] font-medium">Slow Cold Ferment</span>
+            </div>
+            <div>
+              <span class="block font-serif font-bold text-2xl text-[#2C1810]">100%</span>
+              <span class="text-xs text-[#8A6E5D] font-medium">Normandy Cultured Butter</span>
+            </div>
+            <div>
+              <span class="block font-serif font-bold text-2xl text-[#2C1810]">4.95 ★</span>
+              <span class="text-xs text-[#8A6E5D] font-medium">Over 2,400 Morning Fans</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: 3D Layered Visual Showcase with Parallax -->
+        <div class="lg:col-span-5 relative flex items-center justify-center">
+          
+          <!-- Outer Decorative Halo -->
+          <div class="absolute w-80 h-80 sm:w-96 sm:h-96 rounded-full border border-dashed border-[#E8C9A0] animate-spin" style="animation-duration: 40s;" aria-hidden="true"></div>
+
+          <!-- Main Hero Product Showcase Card with 3D Tilt -->
+          <div class="hero-image-reveal tilt-card w-full max-w-md bg-[#FFFDF9] p-4 rounded-3xl border border-[#E8C9A0]/50 shadow-2xl relative z-10" data-tilt data-tilt-max="14">
+            <div class="aspect-square rounded-2xl overflow-hidden relative group">
+              <img 
+                src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1000&q=85" 
+                alt="Golden Pistachio Cruffin fresh from the oven" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                fetchpriority="high"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#2C1810]/70 via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-4 left-4 right-4 text-white">
+                <span class="inline-block px-3 py-1 rounded-full text-[11px] font-bold bg-[#E76F51] text-white uppercase tracking-wider mb-2">
+                  Today's Masterpiece
+                </span>
+                <h3 class="font-serif font-bold text-xl leading-snug">The Golden Pistachio Cruffin</h3>
+                <p class="text-xs text-[#FDF6E9]/90 font-light mt-0.5">81 flaky layers infused with fresh green cardamom & roasted Sicilian nuts</p>
+              </div>
+            </div>
+
+            <div class="p-4 flex items-center justify-between">
+              <div>
+                <span class="text-xs text-[#8A6E5D] block">Morning Price</span>
+                <span class="font-serif font-bold text-2xl text-[#2C1810]">$6.50</span>
+              </div>
+              <button 
+                onclick="window.cart.addItem('cruffin-pistachio', 1, event)"
+                class="btn-magnetic btn-honey px-5 py-2.5 rounded-full text-xs font-bold shadow-md flex items-center gap-1.5"
+              >
+                <span>Add to Basket</span>
+                <span>🥐</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Floating Floating Parallax Badge 1 -->
+          <div 
+            class="hero-parallax-item animate-float absolute -top-4 -left-6 bg-[#FFFDF9] border border-[#E8C9A0] rounded-2xl p-3 shadow-lg flex items-center gap-3 z-20"
+            data-parallax-speed="35"
+          >
+            <div class="w-10 h-10 rounded-full bg-[#F4A261]/20 flex items-center justify-center text-xl">
+              🌾
+            </div>
+            <div>
+              <span class="block text-xs font-bold text-[#2C1810]">Stone-Milled Daily</span>
+              <span class="text-[10px] text-[#8A6E5D]">Ancient Heritage Grains</span>
+            </div>
+          </div>
+
+          <!-- Floating Parallax Badge 2 -->
+          <div 
+            class="hero-parallax-item animate-float-delayed absolute -bottom-6 -right-6 bg-[#FFFDF9] border border-[#E8C9A0] rounded-2xl p-3 shadow-lg flex items-center gap-3 z-20"
+            data-parallax-speed="-25"
+          >
+            <div class="w-10 h-10 rounded-full bg-[#E76F51]/20 flex items-center justify-center text-xl">
+              🍯
+            </div>
+            <div>
+              <span class="block text-xs font-bold text-[#2C1810]">Wildflower Honey</span>
+              <span class="text-[10px] text-[#8A6E5D]">Single-Origin Raw Comb</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Bottom Floating Scroll Indicator -->
+      <a href="#about" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs font-bold text-[#8A6E5D] hover:text-[#2C1810] transition" aria-label="Scroll to story">
+        <span class="tracking-widest uppercase text-[10px]">Scroll Down</span>
+        <div class="w-5 h-8 border-2 border-[#8A6E5D] rounded-full flex justify-center pt-1">
+          <div class="w-1 h-2 bg-[#E76F51] rounded-full animate-bounce"></div>
+        </div>
+      </a>
+
+    </section>
+
+    <!-- ==========================================================================
+         2. About / Our Story Section: Tactile Warmth & Interactive Words
+         ========================================================================== -->
+    <section id="about" class="py-24 px-6 md:px-12 bg-[#FFFDF9] relative border-y border-[#E8C9A0]/40 overflow-hidden">
+      
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Imagery Grid on the Left -->
+        <div class="lg:col-span-6 grid grid-cols-2 gap-4 relative">
+          
+          <div class="space-y-4">
+            <div class="tilt-card rounded-2xl overflow-hidden shadow-md aspect-[4/5] border border-[#E8C9A0]/40" data-tilt data-tilt-max="8">
+              <img 
+                src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=700&q=80" 
+                alt="Baker gently kneading slow-fermented dough" 
+                class="w-full h-full object-cover hover:scale-105 transition duration-500" 
+                loading="lazy"
+              />
+            </div>
+            <div class="tilt-card rounded-2xl overflow-hidden shadow-md aspect-square border border-[#E8C9A0]/40" data-tilt data-tilt-max="8">
+              <img 
+                src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=700&q=80" 
+                alt="Golden baked honey butter biscotti cooling on rack" 
+                class="w-full h-full object-cover hover:scale-105 transition duration-500" 
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <div class="space-y-4 pt-8">
+            <div class="tilt-card rounded-2xl overflow-hidden shadow-md aspect-square border border-[#E8C9A0]/40" data-tilt data-tilt-max="8">
+              <img 
+                src="https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?auto=format&fit=crop&w=700&q=80" 
+                alt="Wood stone deck oven blistered sourdough loaf" 
+                class="w-full h-full object-cover hover:scale-105 transition duration-500" 
+                loading="lazy"
+              />
+            </div>
+            <div class="tilt-card rounded-2xl overflow-hidden shadow-md aspect-[4/5] border border-[#E8C9A0]/40" data-tilt data-tilt-max="8">
+              <img 
+                src="https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=700&q=80" 
+                alt="Pecan tartlets with salted amber caramel" 
+                class="w-full h-full object-cover hover:scale-105 transition duration-500" 
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <!-- Circular Center Stamp -->
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full bg-[#4A2C0A] text-[#FDF6E9] p-3 flex flex-col items-center justify-center text-center shadow-2xl border-4 border-[#FFFDF9] z-20">
+            <span class="text-xs uppercase font-serif tracking-widest text-[#E8C9A0]">Pure</span>
+            <span class="font-serif font-black text-xl">100%</span>
+            <span class="text-[9px] tracking-wider uppercase text-[#E8C9A0]">Artisanal</span>
+          </div>
+
+        </div>
+
+        <!-- Story Telling Content with Interactive Word Bursts -->
+        <div class="lg:col-span-6 scroll-reveal">
+          
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FDF6E9] border border-[#E8C9A0]/60 text-xs font-bold text-[#E76F51] uppercase tracking-wider mb-4">
+            Our Heart & Philosophy
+          </div>
+
+          <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-[#2C1810] leading-tight mb-6">
+            Born from the dawn ritual of slow dough and warm stone.
+          </h2>
+
+          <div class="space-y-4 text-[#5C4334] text-base leading-relaxed">
+            <p>
+              It started in 2019 with a simple, stubborn obsession: why had modern pastries sacrificed flavor for convenience? At <strong>MUNA'S CRUNCHIES</strong>, we believe every bite should carry a memory — the distinct auditory snap of a golden crust, followed by the heavenly melting warmth of genuine European pastry craft.
+            </p>
+            
+            <p class="p-4 bg-[#FDF6E9] rounded-2xl border border-[#E8C9A0]/50 text-sm">
+              💡 <em>Try hovering over our ingredients below to release their sensory essences:</em>
+            </p>
+
+            <!-- Interactive Highlight Words -->
+            <p class="text-lg font-medium leading-loose">
+              We begin every morning by milling organic 
+              <span class="story-word-interactive" data-particle="flour" title="Click or hover to release flour dust">stone-ground heirloom flour</span>, 
+              folding in slabs of chilled 
+              <span class="story-word-interactive" data-particle="honey" title="Hover for golden butter sparks">Normandy cultured butter</span>, 
+              glazing with raw 
+              <span class="story-word-interactive" data-particle="honey" title="Hover for wildflower honey sparks">wildflower honey</span>, 
+              and melting rich single-origin 
+              <span class="story-word-interactive" data-particle="chocolate" title="Hover for dark chocolate cacao crumbs">Valrhona dark chocolate</span>.
+            </p>
+
+            <p>
+              No industrial shortcuts. No synthetic emulsifiers. Just wild microorganisms, 48 hours of slow enzymatic cold fermentation, and the watchful eye of bakers who greet the morning star before the city wakes.
+            </p>
+          </div>
+
+          <!-- Founder Note & Signature -->
+          <div class="mt-8 pt-6 border-t border-[#E8C9A0]/40 flex items-center justify-between">
+            <div>
+              <p class="font-display text-3xl text-[#2C1810]">Muna Al-Mansoor</p>
+              <p class="text-xs text-[#8A6E5D] font-medium uppercase tracking-wider mt-0.5">Founder & Head Viennoisière</p>
+            </div>
+            <a href="#menu" class="btn-magnetic btn-primary px-6 py-2.5 rounded-full text-xs font-bold">
+              Taste the Craft
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         3. Signature Collection / Menu Showcase
+         ========================================================================== -->
+    <section id="menu" class="py-24 px-6 md:px-12 bg-[#FDF6E9] relative">
+      
+      <div class="max-w-7xl mx-auto">
+        
+        <!-- Header & Category Switcher -->
+        <div class="text-center max-w-2xl mx-auto mb-12 scroll-reveal">
+          <span class="inline-block px-3.5 py-1.5 rounded-full bg-[#FFFDF9] border border-[#E8C9A0]/60 text-xs font-bold text-[#E76F51] uppercase tracking-wider mb-3">
+            Fresh from the Hearth
+          </span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-black text-[#2C1810] tracking-tight mb-4">
+            The Signature Collection
+          </h2>
+          <p class="text-[#5C4334] text-base leading-relaxed">
+            Every creation is prepared fresh each sunrise in limited artisanal batches. Click any card to view tasting profiles and allergens.
+          </p>
+
+          <!-- Filter Pills -->
+          <div class="flex flex-wrap items-center justify-center gap-2 mt-8" role="tablist" aria-label="Menu filter categories">
+            <button class="menu-filter-btn active px-5 py-2 rounded-full text-xs font-bold transition shadow-sm bg-[#4A2C0A] text-white" data-filter="all">
+              All Creations
+            </button>
+            <button class="menu-filter-btn px-5 py-2 rounded-full text-xs font-bold transition shadow-sm bg-white/70 text-[#2C1810] hover:bg-white" data-filter="viennoiserie">
+              Viennoiserie & Cruffins
+            </button>
+            <button class="menu-filter-btn px-5 py-2 rounded-full text-xs font-bold transition shadow-sm bg-white/70 text-[#2C1810] hover:bg-white" data-filter="crunchies">
+              Signature Crunchies
+            </button>
+            <button class="menu-filter-btn px-5 py-2 rounded-full text-xs font-bold transition shadow-sm bg-white/70 text-[#2C1810] hover:bg-white" data-filter="sourdough">
+              Hearth Sourdough
+            </button>
+            <button class="menu-filter-btn px-5 py-2 rounded-full text-xs font-bold transition shadow-sm bg-white/70 text-[#2C1810] hover:bg-white" data-filter="patisserie">
+              Patisserie & Tarts
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Product Grid (Injected and Re-rendered via main.js) -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Populated dynamically with 3D tilt cards -->
+        </div>
+
+        <!-- Custom Order Banner -->
+        <div class="mt-16 p-8 rounded-3xl bg-gradient-to-r from-[#4A2C0A] to-[#2C1810] text-[#FDF6E9] shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 border border-[#E8C9A0]/30">
+          <div class="max-w-xl">
+            <span class="text-xs uppercase tracking-widest text-[#F4A261] font-bold">Catering & Special Celebrations</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold mt-1">Hosting a morning salon or weekend gathering?</h3>
+            <p class="text-sm text-[#E8C9A0] mt-2 font-light">
+              We bake custom assortments of mini cruffins, boxed biscotti jars, and decorative sourdough loaves tailored for your guests.
+            </p>
+          </div>
+          <a href="#visit" class="btn-magnetic btn-honey px-7 py-3.5 rounded-full text-xs font-bold tracking-wide whitespace-nowrap shadow-md">
+            Request Custom Batch
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         4. Experience & Craft Process Section: The Craft of the Crunch
+         ========================================================================== -->
+    <section id="craft" class="py-24 px-6 md:px-12 bg-[#FFFDF9] border-t border-[#E8C9A0]/40 relative">
+      
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
+          <span class="inline-block px-3.5 py-1.5 rounded-full bg-[#FDF6E9] border border-[#E8C9A0]/60 text-xs font-bold text-[#E76F51] uppercase tracking-wider mb-3">
+            Slow Food Alchemy
+          </span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-black text-[#2C1810] tracking-tight mb-4">
+            The Craft of the Crunch
+          </h2>
+          <p class="text-[#5C4334] text-base leading-relaxed">
+            Four patient chapters between grain and golden perfection. Click each chapter below to inspect our baking methods.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Left: Interactive Step Cards -->
+          <div class="lg:col-span-5 space-y-3" id="craft-steps-list">
+            <!-- Populated dynamically via main.js with 4 interactive chapters -->
+          </div>
+
+          <!-- Right: Interactive Live Visualizer & Gauges -->
+          <div class="lg:col-span-7">
+            <div class="bg-[#FDF6E9] p-6 sm:p-8 rounded-3xl border border-[#E8C9A0]/60 shadow-lg relative overflow-hidden">
+              
+              <!-- Top Indicators -->
+              <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#E8C9A0]/40">
+                <div class="flex items-center gap-2">
+                  <span class="w-3 h-3 rounded-full bg-[#E76F51] animate-ping"></span>
+                  <span id="craft-preview-time" class="text-xs font-bold text-[#2C1810] tracking-wide">
+                    Day 1 • 06:00 AM
+                  </span>
+                </div>
+                <div class="px-3.5 py-1 rounded-full bg-white border border-[#E8C9A0]/60 text-xs font-bold text-[#4A2C0A]" id="craft-preview-temp">
+                  21°C Room Ferment
+                </div>
+              </div>
+
+              <!-- Center Showcase Image with 3D Tilt -->
+              <div class="my-6 rounded-2xl overflow-hidden aspect-[16/9] shadow-md border border-[#E8C9A0]/40 relative group">
+                <img 
+                  id="craft-preview-image"
+                  src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1000&q=80" 
+                  alt="Bakery Craft Step" 
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+
+              <!-- Title, Sensory Quote & Bullet Points -->
+              <h3 id="craft-preview-title" class="font-serif font-bold text-2xl text-[#2C1810] mb-2">
+                The Sacred Starter & Grains
+              </h3>
+              
+              <p id="craft-preview-quote" class="font-serif italic text-sm text-[#4A2C0A] bg-white/70 p-3.5 rounded-xl border border-[#E8C9A0]/40 mb-4">
+                “True flavor takes patience. We mill ancient heirloom Khorasan and Emmer wheat berries every dawn.”
+              </p>
+
+              <ul id="craft-preview-bullets" class="space-y-2 mt-4">
+                <!-- Dynamically populated -->
+              </ul>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         5. Customer Love & Testimonials
+         ========================================================================== -->
+    <section id="testimonials" class="py-24 px-6 md:px-12 bg-[#FDF6E9] relative border-t border-[#E8C9A0]/40 overflow-hidden">
+      
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
+          <span class="inline-block px-3.5 py-1.5 rounded-full bg-[#FFFDF9] border border-[#E8C9A0]/60 text-xs font-bold text-[#E76F51] uppercase tracking-wider mb-3">
+            From Our Morning Friends
+          </span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-black text-[#2C1810] tracking-tight mb-4">
+            Words from the Breadline
+          </h2>
+          <p class="text-[#5C4334] text-base leading-relaxed">
+            The sound of crunching crusts and quiet morning satisfaction from our neighborhood devotees.
+          </p>
+        </div>
+
+        <!-- Testimonial Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Testimonial 1 -->
+          <article class="tilt-card bg-[#FFFDF9] p-8 rounded-3xl border border-[#E8C9A0]/50 shadow-md flex flex-col justify-between" data-tilt data-tilt-max="8">
+            <div>
+              <div class="flex items-center gap-1 text-amber-500 mb-4">
+                ★★★★★
+              </div>
+              <p class="font-serif italic text-[#2C1810] text-lg leading-relaxed mb-6">
+                “The Pistachio Cruffin ruined all other pastries for me. The crunch is unmistakable, and that fragrant green cardamom custard is like stepping straight into paradise.”
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-[#E8C9A0]/40">
+              <div class="w-10 h-10 rounded-full bg-[#E8C9A0] flex items-center justify-center font-serif font-bold text-[#4A2C0A]">
+                CL
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-[#2C1810]">Chef Camille Laurent</h4>
+                <p class="text-xs text-[#8A6E5D]">Pastry Instructor, Le Cordon Review</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 2 -->
+          <article class="tilt-card bg-[#FFFDF9] p-8 rounded-3xl border border-[#E8C9A0]/50 shadow-md flex flex-col justify-between" data-tilt data-tilt-max="8">
+            <div>
+              <div class="flex items-center gap-1 text-amber-500 mb-4">
+                ★★★★★
+              </div>
+              <p class="font-serif italic text-[#2C1810] text-lg leading-relaxed mb-6">
+                “I walk twelve blocks in the winter rain just for Muna’s Honey Butter Biscotti. Dipping one into hot dark espresso is my sacred morning religion.”
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-[#E8C9A0]/40">
+              <div class="w-10 h-10 rounded-full bg-[#F4A261]/30 flex items-center justify-center font-serif font-bold text-[#4A2C0A]">
+                JA
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-[#2C1810]">Julian Al-Bakri</h4>
+                <p class="text-xs text-[#8A6E5D]">Architect & Daily Regular</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 3 -->
+          <article class="tilt-card bg-[#FFFDF9] p-8 rounded-3xl border border-[#E8C9A0]/50 shadow-md flex flex-col justify-between" data-tilt data-tilt-max="8">
+            <div>
+              <div class="flex items-center gap-1 text-amber-500 mb-4">
+                ★★★★★
+              </div>
+              <p class="font-serif italic text-[#2C1810] text-lg leading-relaxed mb-6">
+                “Their Heritage Batard is genuinely world-class. Blistered crackling crust with an open, custard-like crumb that holds fresh butter like a dream.”
+              </p>
+            </div>
+            <div class="flex items-center gap-3 pt-4 border-t border-[#E8C9A0]/40">
+              <div class="w-10 h-10 rounded-full bg-[#E76F51]/20 flex items-center justify-center font-serif font-bold text-[#4A2C0A]">
+                SN
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-[#2C1810]">Sarah Novak</h4>
+                <p class="text-xs text-[#8A6E5D]">Food & Culinary Journalist</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Press Quotes Carousel Strip -->
+        <div class="mt-16 py-8 border-y border-[#E8C9A0]/40 flex flex-wrap items-center justify-around gap-8 text-[#8A6E5D]">
+          <div class="text-center">
+            <span class="block font-serif font-bold text-lg text-[#2C1810]">EPICURE JOURNAL</span>
+            <span class="text-xs italic">“The golden standard of modern Viennoiserie”</span>
+          </div>
+          <div class="text-center">
+            <span class="block font-serif font-bold text-lg text-[#2C1810]">DAILY GASTRONOME</span>
+            <span class="text-xs italic">“The crunch you hear across the room”</span>
+          </div>
+          <div class="text-center">
+            <span class="block font-serif font-bold text-lg text-[#2C1810]">CULINARY HORIZONS</span>
+            <span class="text-xs italic">“Best artisanal bakery award 2024 & 2025”</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ==========================================================================
+         6. Visit Us, Interactive Storefront & Pre-order Form
+         ========================================================================== -->
+    <section id="visit" class="py-24 px-6 md:px-12 bg-[#FFFDF9] relative border-t border-[#E8C9A0]/40">
+      
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16 scroll-reveal">
+          <span class="inline-block px-3.5 py-1.5 rounded-full bg-[#FDF6E9] border border-[#E8C9A0]/60 text-xs font-bold text-[#E76F51] uppercase tracking-wider mb-3">
+            Come Smell the Fresh Bakes
+          </span>
+          <h2 class="font-serif text-4xl sm:text-5xl font-black text-[#2C1810] tracking-tight mb-4">
+            Visit Our Sanctuary
+          </h2>
+          <p class="text-[#5C4334] text-base leading-relaxed">
+            Follow the scent of browned butter and caramelized sugar to our hearth in the heart of the district.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          
+          <!-- Left: Illustrated Interactive Storefront & Details -->
+          <div class="lg:col-span-6 space-y-8">
+            
+            <!-- Interactive Bakery Storefront Card with Easter Eggs -->
+            <div class="bg-[#FDF6E9] p-8 rounded-3xl border border-[#E8C9A0]/70 shadow-lg relative overflow-hidden group">
+              
+              <!-- Animated Bakery Facade Illustration -->
+              <div class="relative bg-white/80 p-6 rounded-2xl border border-[#E8C9A0]/50 mb-6">
+                
+                <div class="flex items-center justify-between mb-4">
+                  <div class="flex items-center gap-2">
+                    <span class="text-2xl">🏛️</span>
+                    <span class="font-serif font-bold text-base text-[#2C1810]">Muna's Hearth & Cafe</span>
+                  </div>
+                  <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">
+                    Open Now
+                  </span>
+                </div>
+
+                <!-- Interactive Storefront Easter Eggs Strip -->
+                <div class="p-4 bg-[#FDF6E9] rounded-xl border border-[#E8C9A0]/60 flex items-center justify-between gap-4">
+                  
+                  <!-- Chimney Easter Egg -->
+                  <div id="bakery-chimney" class="flex items-center gap-2 cursor-pointer group/chimney" title="Hover to release fresh vanilla steam">
+                    <span class="text-2xl group-hover/chimney:scale-125 transition-transform">♨️</span>
+                    <div>
+                      <span class="text-xs font-bold block text-[#2C1810]">Oven Chimney</span>
+                      <span class="text-[10px] text-[#8A6E5D]">Hover for steam</span>
+                    </div>
+                  </div>
+
+                  <!-- Brass Bell Easter Egg Button -->
+                  <button 
+                    id="easter-egg-bell" 
+                    class="btn-magnetic px-3.5 py-1.5 rounded-full bg-[#FFFDF9] hover:bg-white text-xs font-bold text-[#4A2C0A] border border-[#E8C9A0] shadow-sm flex items-center gap-1.5 transition active:scale-95"
+                    title="Ring the shop bell"
+                  >
+                    <span>🔔</span>
+                    <span>Ring Bell</span>
+                  </button>
+
+                </div>
+
+                <p class="text-xs text-[#8A6E5D] mt-3 italic text-center">
+                  ✨ Interactive easter eggs: Ring the shop bell or hover the chimney to trigger bakery aroma bursts!
+                </p>
+
+              </div>
+
+              <!-- Location & Operating Hours Details -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <h4 class="font-serif font-bold text-base text-[#2C1810] mb-2 flex items-center gap-2">
+                    <span>📍</span> Location
+                  </h4>
+                  <p class="text-sm text-[#5C4334] leading-relaxed">
+                    142 Artisan Lane<br>
+                    Honeycomb District, Suite 104<br>
+                    Bakery Row
+                  </p>
+                  <a href="#visit" class="inline-block text-xs font-bold text-[#E76F51] hover:underline mt-2">
+                    Open in Apple / Google Maps →
+                  </a>
+                </div>
+
+                <div>
+                  <h4 class="font-serif font-bold text-base text-[#2C1810] mb-2 flex items-center gap-2">
+                    <span>⏰</span> Oven Hours
+                  </h4>
+                  <ul class="text-sm text-[#5C4334] space-y-1">
+                    <li class="flex justify-between">
+                      <span>Tue – Fri:</span>
+                      <strong class="text-[#2C1810]">07:00 AM – 06:30 PM</strong>
+                    </li>
+                    <li class="flex justify-between">
+                      <span>Sat – Sun:</span>
+                      <strong class="text-[#2C1810]">07:30 AM – 05:00 PM</strong>
+                    </li>
+                    <li class="flex justify-between text-[#8A6E5D]">
+                      <span>Monday:</span>
+                      <em>Rest & Starter Feeding</em>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Curbside & Delivery Info -->
+            <div class="p-6 bg-[#FDF6E9] rounded-2xl border border-[#E8C9A0]/50 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-[#E76F51]/20 flex items-center justify-center text-2xl flex-shrink-0">
+                📦
+              </div>
+              <div>
+                <h4 class="font-serif font-bold text-base text-[#2C1810]">Curbside Morning Pickups</h4>
+                <p class="text-xs text-[#5C4334] mt-0.5 leading-relaxed">
+                  Pre-ordered loaves and cruffins are held warm in insulated eco-boxes with your name ready at our Express Pickup window.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right: Pre-order & Catering Inquiry Form -->
+          <div class="lg:col-span-6 bg-[#FDF6E9] p-8 sm:p-10 rounded-3xl border border-[#E8C9A0]/70 shadow-lg">
+            
+            <div class="mb-6">
+              <span class="text-xs uppercase tracking-widest text-[#E76F51] font-bold">Direct To The Hearth</span>
+              <h3 class="font-serif font-bold text-2xl sm:text-3xl text-[#2C1810] mt-1">Pre-Order or Event Inquiry</h3>
+              <p class="text-sm text-[#5C4334] mt-1 font-normal">
+                Reserve your morning batch or plan an artisanal pastry display for your next celebration.
+              </p>
+            </div>
+
+            <form id="contact-catering-form" class="space-y-4">
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="floating-form-group">
+                  <input type="text" id="form-name" required placeholder=" " class="floating-input" />
+                  <label for="form-name" class="floating-label">Your Full Name</label>
+                </div>
+
+                <div class="floating-form-group">
+                  <input type="email" id="form-email" required placeholder=" " class="floating-input" />
+                  <label for="form-email" class="floating-label">Email Address</label>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="floating-form-group">
+                  <input type="tel" id="form-phone" placeholder=" " class="floating-input" />
+                  <label for="form-phone" class="floating-label">Phone Number (optional)</label>
+                </div>
+
+                <div class="floating-form-group">
+                  <select id="form-inquiry-type" class="floating-input" aria-label="Inquiry Type">
+                    <option value="pickup">Curbside Box Pickup</option>
+                    <option value="catering">Private Catering & Salon</option>
+                    <option value="corporate">Corporate Morning Gift Boxes</option>
+                    <option value="general">Bakery Question</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="floating-form-group">
+                <textarea id="form-message" rows="4" required placeholder=" " class="floating-input resize-none"></textarea>
+                <label for="form-message" class="floating-label">Tell us about your order or event date...</label>
+              </div>
+
+              <button 
+                type="submit" 
+                class="btn-magnetic btn-primary w-full py-4 rounded-full text-sm font-bold tracking-wide shadow-md flex items-center justify-center gap-2"
+              >
+                <span>Send to Head Baker</span>
+                <span>✨</span>
+              </button>
+
+              <p class="text-[11px] text-center text-[#8A6E5D] mt-2">
+                We respect your privacy. No spam, only warm aromas and order confirmations.
+              </p>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       7. Footer: Brand Manifesto & Newsletter
+       ========================================================================== -->
+  <footer class="bg-[#1E100A] text-[#FDF6E9] pt-20 pb-12 px-6 md:px-12 relative overflow-hidden border-t border-[#4A2C0A]">
+    
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+      
+      <!-- Brand & Manifesto -->
+      <div class="lg:col-span-5 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-[#E8C9A0] flex items-center justify-center text-[#2C1810] font-serif font-black text-xl">
+            M
+          </div>
+          <span class="font-serif font-bold text-2xl text-[#FDF6E9] tracking-wider">
+            MUNA'S <span class="italic text-[#F4A261]">Crunchies</span>
+          </span>
+        </div>
+
+        <p class="text-sm text-[#E8C9A0]/80 leading-relaxed max-w-sm font-light">
+          Crafting joy one bite at a time. Slow fermentation, heritage stone-milled flours, and unhurried European baking traditions in every golden crumb.
+        </p>
+
+        <!-- Social Icons -->
+        <div class="flex items-center gap-4 pt-2">
+          <a href="#hero" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#F4A261] hover:text-[#2C1810] flex items-center justify-center text-sm transition-all" aria-label="Instagram">
+            📸
+          </a>
+          <a href="#hero" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#F4A261] hover:text-[#2C1810] flex items-center justify-center text-sm transition-all" aria-label="TikTok">
+            🎬
+          </a>
+          <a href="#hero" class="w-9 h-9 rounded-full bg-white/10 hover:bg-[#F4A261] hover:text-[#2C1810] flex items-center justify-center text-sm transition-all" aria-label="Pinterest">
+            📌
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Section Links -->
+      <div class="lg:col-span-3 space-y-3">
+        <h4 class="font-serif font-bold text-base text-[#F4A261] tracking-wider uppercase text-xs">Explore</h4>
+        <ul class="space-y-2 text-sm text-[#E8C9A0]/70 font-light">
+          <li><a href="#about" class="hover:text-white transition">Our Sourdough Philosophy</a></li>
+          <li><a href="#menu" class="hover:text-white transition">Signature Menu Collection</a></li>
+          <li><a href="#craft" class="hover:text-white transition">The 4-Stage Lamination Craft</a></li>
+          <li><a href="#testimonials" class="hover:text-white transition">Customer Love & Reviews</a></li>
+          <li><a href="#visit" class="hover:text-white transition">Bakery Storefront & Directions</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter: The Baker's Journal -->
+      <div class="lg:col-span-4 space-y-4">
+        <h4 class="font-serif font-bold text-base text-[#F4A261] tracking-wider uppercase text-xs">The Baker's Journal</h4>
+        <p class="text-xs text-[#E8C9A0]/80 leading-relaxed font-light">
+          Subscribe for weekend special drops, secret seasonal bakes, and receive a voucher for a <strong>Free Almond Crunchie</strong> on your next visit.
+        </p>
+
+        <form id="newsletter-form" class="flex items-center gap-2">
+          <input 
+            type="email" 
+            required 
+            placeholder="Enter your email" 
+            class="bg-white/10 border border-white/20 text-[#FDF6E9] placeholder-[#E8C9A0]/50 px-4 py-2.5 rounded-full text-xs flex-1 outline-none focus:border-[#F4A261]"
+          />
+          <button 
+            type="submit" 
+            class="btn-magnetic btn-honey px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm"
+          >
+            Join
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright & Back to Top -->
+    <div class="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#E8C9A0]/50 font-light">
+      <p>© 2026 MUNA'S CRUNCHIES LLC. All rights reserved. Handcrafted with butter and joy.</p>
+      <div class="flex items-center gap-6">
+        <a href="#hero" class="hover:text-[#F4A261] transition">Back to top ↑</a>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- ==========================================================================
+       8. Cart Drawer & Top-Layer Modals
+       ========================================================================== -->
+  <!-- Shared Backdrop -->
+  <div id="drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
+
+  <!-- Cart Slide-Over Drawer -->
+  <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping Bag Drawer">
+    
+    <!-- Drawer Header -->
+    <div class="p-6 border-b border-[#E8C9A0]/40 flex items-center justify-between bg-[#FFFDF9]">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🧺</span>
+        <h3 class="font-serif font-bold text-xl text-[#2C1810]">Your Morning Basket</h3>
+      </div>
+      <button class="trigger-close-cart text-2xl text-[#8A6E5D] hover:text-[#2C1810] transition" aria-label="Close cart drawer">
+        ✕
+      </button>
+    </div>
+
+    <!-- Free Delivery Progress Bar -->
+    <div class="p-4 bg-[#FDF6E9] border-b border-[#E8C9A0]/40">
+      <p id="free-shipping-text" class="text-xs text-[#5C4334] mb-2 font-medium">
+        Add <strong>$45.00</strong> more for <em>Complimentary Artisanal Box Delivery</em>
+      </p>
+      <div class="w-full h-2 rounded-full bg-[#E8C9A0]/40 overflow-hidden">
+        <div id="free-shipping-progress" class="h-full bg-[#E76F51] transition-all duration-500" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-cart-state" class="flex-1 flex flex-col items-center justify-center p-8 text-center">
+      <div class="w-20 h-20 rounded-full bg-[#FDF6E9] flex items-center justify-center text-4xl mb-4 border border-[#E8C9A0]/50">
+        🥐
+      </div>
+      <h4 class="font-serif font-bold text-lg text-[#2C1810] mb-1">Your basket is resting</h4>
+      <p class="text-xs text-[#8A6E5D] max-w-xs mb-6">
+        Warm croissants, biscotti jars, and blistered loaves are waiting fresh on the hearth.
+      </p>
+      <button class="trigger-close-cart btn-magnetic btn-primary px-6 py-2.5 rounded-full text-xs font-bold">
+        Explore Today's Bakes
+      </button>
+    </div>
+
+    <!-- Items List Wrapper -->
+    <div id="cart-content-wrapper" class="hidden flex-1 flex flex-col justify-between overflow-hidden">
+      
+      <!-- Scrollable Items Container -->
+      <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+        <!-- Injected dynamically via main.js -->
+      </div>
+
+      <!-- Drawer Footer & Checkout -->
+      <div class="p-6 bg-[#FFFDF9] border-t border-[#E8C9A0]/40 space-y-4">
+        <div class="flex items-center justify-between text-base">
+          <span class="text-[#8A6E5D] font-medium">Subtotal</span>
+          <span id="cart-subtotal" class="font-serif font-bold text-2xl text-[#2C1810]">$0.00</span>
+        </div>
+        <p class="text-[11px] text-[#8A6E5D]">
+          Taxes and local delivery calculated at morning checkout.
+        </p>
+        <button 
+          id="btn-checkout" 
+          class="btn-magnetic btn-honey w-full py-4 rounded-full text-sm font-bold tracking-wide shadow-lg flex items-center justify-center gap-2"
+        >
+          <span>Complete Fresh Order</span>
+          <span>→</span>
+        </button>
+      </div>
+
+    </div>
+
+  </aside>
+
+  <!-- Quick View Product Modal -->
+  <div id="quick-view-modal" class="quick-view-modal p-6 sm:p-8" role="dialog" aria-modal="true" aria-labelledby="qv-title">
+    
+    <div class="flex items-center justify-between pb-4 border-b border-[#E8C9A0]/40 mb-6">
+      <span id="qv-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#E76F51] text-white uppercase tracking-wider">
+        Signature
+      </span>
+      <button id="close-quick-view" class="text-2xl text-[#8A6E5D] hover:text-[#2C1810] transition" aria-label="Close modal">
+        ✕
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      
+      <!-- Modal Image -->
+      <div class="aspect-square rounded-2xl overflow-hidden bg-[#FDF6E9] border border-[#E8C9A0]/50 shadow-md">
+        <img id="qv-image" src="" alt="Product" class="w-full h-full object-cover" />
+      </div>
+
+      <!-- Modal Details -->
+      <div class="space-y-4">
+        <div>
+          <h3 id="qv-title" class="font-serif font-bold text-2xl sm:text-3xl text-[#2C1810]">
+            Product Name
+          </h3>
+          <span id="qv-price" class="font-bold text-2xl text-[#4A2C0A] block mt-1">
+            $0.00
+          </span>
+        </div>
+
+        <p id="qv-desc" class="text-sm text-[#5C4334] leading-relaxed">
+          Short description
+        </p>
+
+        <!-- Tasting Notes Tags -->
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#8A6E5D] block mb-2">Tasting Notes</span>
+          <div id="qv-tasting-notes" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Allergen Details -->
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#8A6E5D] block mb-2">Allergens</span>
+          <div id="qv-allergens" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <div class="p-3.5 bg-[#FDF6E9] rounded-xl border border-[#E8C9A0]/50">
+          <p id="qv-details" class="text-xs text-[#5C4334] italic leading-relaxed"></p>
+        </div>
+
+        <!-- Quantity & Add to Cart -->
+        <div class="flex items-center gap-4 pt-4 border-t border-[#E8C9A0]/40">
+          <div class="flex items-center border border-[#E8C9A0] rounded-full bg-white overflow-hidden">
+            <button onclick="document.getElementById('qv-qty-input').stepDown()" class="px-3.5 py-2 text-[#2C1810] hover:bg-[#FDF6E9] font-bold text-sm" aria-label="Decrease quantity">−</button>
+            <input type="number" id="qv-qty-input" value="1" min="1" max="24" class="w-10 text-center font-bold text-sm outline-none bg-transparent" />
+            <button onclick="document.getElementById('qv-qty-input').stepUp()" class="px-3.5 py-2 text-[#2C1810] hover:bg-[#FDF6E9] font-bold text-sm" aria-label="Increase quantity">+</button>
+          </div>
+
+          <button id="qv-add-btn" class="btn-magnetic btn-primary flex-1 py-3 rounded-full text-xs font-bold shadow-md flex items-center justify-center gap-2">
+            <span>Add to Basket</span>
+            <span>🥐</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Order Receipt Simulation Modal -->
+  <div id="checkout-receipt-modal" class="quick-view-modal p-8 max-w-md text-center" role="dialog" aria-modal="true">
+    <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-3xl mx-auto mb-4">
+      🎉
+    </div>
+    <span class="text-xs font-bold uppercase tracking-widest text-[#E76F51]">Fresh Batch Reserved</span>
+    <h3 class="font-serif font-bold text-2xl text-[#2C1810] mt-1 mb-2">Order Confirmed!</h3>
+    <p class="text-xs text-[#5C4334] mb-4">
+      Thank you for choosing MUNA'S CRUNCHIES. Your bakes are scheduled for fresh hearth pickup.
+    </p>
+    <div class="bg-[#FDF6E9] p-4 rounded-xl border border-[#E8C9A0]/50 text-left text-xs space-y-2 mb-6">
+      <div class="flex justify-between">
+        <span class="text-[#8A6E5D]">Order Reference:</span>
+        <strong id="receipt-order-id" class="text-[#2C1810]">MC-104928</strong>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-[#8A6E5D]">Estimated Warm Ready:</span>
+        <strong class="text-[#2C1810]">Tomorrow, 07:45 AM</strong>
+      </div>
+      <div class="flex justify-between border-t border-[#E8C9A0]/40 pt-2 font-bold text-sm">
+        <span class="text-[#2C1810]">Amount Paid:</span>
+        <span id="receipt-total" class="text-[#E76F51]">$0.00</span>
+      </div>
+    </div>
+    <button id="close-receipt-btn" class="btn-magnetic btn-primary w-full py-3 rounded-full text-xs font-bold">
+      Wonderful, Back to Bakery
+    </button>
+  </div>
+
+</body>
+</html>
