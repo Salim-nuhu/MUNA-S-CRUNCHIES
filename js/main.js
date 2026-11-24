@@ -407,7 +407,7 @@ class CartController {
 
     // Update Subtotal
     if (this.cartSubtotalEl) {
-      this.cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+      this.cartSubtotalEl.textContent = `GH₵${subtotal.toFixed(2)}`;
     }
 
     // Free Shipping Progress
@@ -420,7 +420,7 @@ class CartController {
         this.freeShippingText.innerHTML = `🎉 <strong>Complimentary Artisanal Gift Box Unlocked!</strong>`;
         this.freeShippingBar.classList.add('bg-emerald-500');
       } else {
-        this.freeShippingText.innerHTML = `Add <strong>$${remaining.toFixed(2)}</strong> more for <em>Complimentary Artisanal Box Delivery</em>`;
+        this.freeShippingText.innerHTML = `Add <strong>GH₵${remaining.toFixed(2)}</strong> more for <em>Complimentary Artisanal Box Delivery</em>`;
         this.freeShippingBar.classList.remove('bg-emerald-500');
       }
     }
@@ -434,7 +434,7 @@ class CartController {
           <img src="${item.image}" alt="${item.name}" class="w-18 h-18 rounded-lg object-cover w-[72px] h-[72px] border border-[#E8C9A0]/40 flex-shrink-0" />
           <div class="flex-1 min-w-0">
             <h4 class="font-serif font-bold text-[#2C1810] text-sm truncate">${item.name}</h4>
-            <p class="text-xs text-[#8A6E5D] font-medium mt-0.5">$${item.price.toFixed(2)} each</p>
+            <p class="text-xs text-[#8A6E5D] font-medium mt-0.5">GH₵${item.price.toFixed(2)} each</p>
             <div class="flex items-center gap-3 mt-2">
               <div class="inline-flex items-center border border-[#E8C9A0] rounded-full bg-[#FFFDF9] overflow-hidden text-xs">
                 <button onclick="window.cart.updateQuantity('${item.id}', -1)" class="px-2.5 py-0.5 text-[#2C1810] hover:bg-[#F5E8D3] transition font-bold" aria-label="Decrease quantity">−</button>
@@ -445,7 +445,7 @@ class CartController {
             </div>
           </div>
           <div class="text-right">
-            <span class="font-bold text-[#2C1810] text-sm">$${(item.price * item.qty).toFixed(2)}</span>
+            <span class="font-bold text-[#2C1810] text-sm">GH₵${(item.price * item.qty).toFixed(2)}</span>
           </div>
         </div>
       `
@@ -464,7 +464,7 @@ class CartController {
     const checkoutReceipt = document.getElementById('checkout-receipt-modal');
     if (checkoutReceipt) {
       document.getElementById('receipt-order-id').textContent = 'MC-' + Math.floor(100000 + Math.random() * 900000);
-      document.getElementById('receipt-total').textContent = `$${this.getSubtotal().toFixed(2)}`;
+      document.getElementById('receipt-total').textContent = `GH₵${this.getSubtotal().toFixed(2)}`;
       checkoutReceipt.classList.add('active');
     }
 
@@ -522,7 +522,7 @@ class QuickViewController {
     document.getElementById('qv-image').alt = product.name;
     document.getElementById('qv-badge').textContent = product.badge;
     document.getElementById('qv-title').textContent = product.name;
-    document.getElementById('qv-price').textContent = `$${product.price.toFixed(2)}`;
+    document.getElementById('qv-price').textContent = `GH₵${product.price.toFixed(2)}`;
     document.getElementById('qv-desc').textContent = product.shortDesc;
     document.getElementById('qv-details').textContent = product.details;
     document.getElementById('qv-qty-input').value = 1;
@@ -638,7 +638,7 @@ function setupMenu(audio) {
               ${product.name}
             </h3>
             <span class="font-bold text-lg text-[#4A2C0A] whitespace-nowrap">
-              $${product.price.toFixed(2)}
+              GH₵${product.price.toFixed(2)}
             </span>
           </div>
 
